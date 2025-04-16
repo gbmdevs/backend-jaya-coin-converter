@@ -52,4 +52,4 @@ jobs:
            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
          run: |
             heroku git:remote -a backend-jaya-coin-converter
-            git push heroku main
+            git push https://_:${HEROKU_API_KEY}@git.heroku.com/backend-jaya-coin-converter.git main
