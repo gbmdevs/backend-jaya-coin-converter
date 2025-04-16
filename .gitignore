@@ -28,3 +28,6 @@ replay_pid*
 
 # Ignore Gradle build output directory
 build
+
+# Necessario para compilar o gradle no github actions
+!gradle/wrapper/gradle-wrapper.jar
