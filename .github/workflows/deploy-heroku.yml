@@ -36,3 +36,17 @@ jobs:
 
       - name: Compile and build
         run: ./gradlew build -x test
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test-coverage
+    environment: production
+    steps:
+       - name: Checkout code
+         uses: actions/checkout@v4
+
+       - name: Deploy to Heroku
+         env:
+           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+         run: |
+            heroku git:remote -a backend-jaya-coin-converter
+            git push heroku main
