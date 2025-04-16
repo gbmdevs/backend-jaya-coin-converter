@@ -37,7 +37,8 @@ jobs:
       - name: Compile and build
         run: ./gradlew build -x test
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
+    needs: build
     environment: production
     steps:
        - name: Checkout code
