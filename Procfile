@@ -1,0 +1,1 @@
+web: java -jar build/libs/backend-jaya-coin-converter.jar
