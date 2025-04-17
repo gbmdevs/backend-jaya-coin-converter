@@ -18,6 +18,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.20")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation("org.flywaydb:flyway-core:9.22.0")
+    implementation("com.h2database:h2")
 }
 
 repositories {
