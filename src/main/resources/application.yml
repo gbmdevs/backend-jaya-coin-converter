@@ -7,9 +7,13 @@ server:
     hibernate:
       ddl-auto: none
     show-sql: true
+    properties:
+      hibernate:
+        default_schema: coinconverter
 
 flyway:
   url: ${DATABASE_URL}
+  schemas: coinconverter
   baseline-on-migrate: true
   enabled: true
   validate-on-migrate: true
