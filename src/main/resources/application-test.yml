@@ -1,11 +1,18 @@
 server:
+  servlet:
+    context-path: /api
   port: 9439
+
+security:
+  jwt:
+    secret-key: "3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b"
+    expiration-time: 8000000
 
 spring:
   jackson:
       time-zone: America/Sao_Paulo
   datasource:
-      url: jdbc:h2:mem:bancotest;MODE=PostgreSQL
+      url: jdbc:h2:mem:bancotest;MODE=PostgreSQL;
       username: admin
       password: admin
       driverClassName: org.h2.Driver
@@ -16,12 +23,8 @@ spring:
         settings.web-allow-others: true
   jpa:
      hibernate.ddl-auto: update
-     properties:
-       hibernate:
-         default_schema: coinconverter_test
 flyway:
     url: jdbc:h2:mem:bancotest
-    schemas: coinconverter_test
     baseline-on-migrate: true
     enabled: true
     validate-on-migrate: true
