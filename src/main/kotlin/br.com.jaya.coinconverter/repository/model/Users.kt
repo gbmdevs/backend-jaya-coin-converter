@@ -1,5 +1,6 @@
 package br.com.jaya.coinconverter.repository.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
@@ -11,38 +12,48 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
 @Entity
-@Table(name="USERS")
-class Users (
+@Table(name = "USERS")
+class Users(
+    @JsonIgnore
     @Id
-    @Column(name="id",nullable = false)
+    @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.CHAR)
     val id: UUID = UUID.randomUUID(),
 
-    @Column(name="email")
+    @Column(name = "email")
     val email: String,
 
-    @Column(name="password")
-    val hashedPassword: String
+    @JsonIgnore
+    @Column(name = "password")
+    val hashedPassword: String,
 
-): UserDetails{
+    @Column(name = "name")
+    val name: String
 
-    constructor() : this(UUID.randomUUID(), "", "")
+) : UserDetails {
+
+    constructor() : this(UUID.randomUUID(), "", "", "")
 
     override fun getUsername(): String {
         return email
     }
 
+    @JsonIgnore
     override fun getPassword(): String {
         return hashedPassword
     }
+
+    @JsonIgnore
     override fun getAuthorities(): Collection<GrantedAuthority> {
         return emptyList() // Retorna uma lista vazia, adaptável conforme necessidade
     }
 
+    @JsonIgnore
     override fun isAccountNonExpired(): Boolean {
         return true
     }
 
+    @JsonIgnore
     override fun isAccountNonLocked(): Boolean {
         return true
     }

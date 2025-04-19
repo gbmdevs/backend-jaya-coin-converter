@@ -1,7 +1,10 @@
 package br.com.jaya.coinconverter.services
 
+import br.com.jaya.coinconverter.exception.UserFoundedException
 import br.com.jaya.coinconverter.model.LoginUserRequestDTO
+import br.com.jaya.coinconverter.model.SignUpRequestDTO
 import br.com.jaya.coinconverter.repository.UserRepository
+import br.com.jaya.coinconverter.repository.model.Users
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.userdetails.UserDetails
@@ -16,6 +19,17 @@ class AuthenticationService(
     private val passwordEncoder: PasswordEncoder
 ) {
 
+    fun signup(input: SignUpRequestDTO): Users {
+        if(!isAccountExist(input.email)){
+            throw UserFoundedException("User with email on request founded.")
+        }
+        val user = Users(
+            email = input.email,
+            hashedPassword = passwordEncoder.encode(input.password),
+            name = input.name
+        )
+        return userRepository.save(user)
+    }
     fun authenticate(login: LoginUserRequestDTO): UserDetails {
         authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(
@@ -24,5 +38,9 @@ class AuthenticationService(
         )
         return userRepository.findByEmail(login.email)
             .orElseThrow{ UsernameNotFoundException("Users not found") }
+    }
+
+    fun isAccountExist(username: String): Boolean{
+       return userRepository.findByEmail(username).isEmpty;
     }
 }
