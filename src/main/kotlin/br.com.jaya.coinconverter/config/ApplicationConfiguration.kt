@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.web.client.RestTemplate
 
 @Configuration
 open class ApplicationConfiguration(
@@ -28,7 +29,10 @@ open class ApplicationConfiguration(
                 .orElseThrow { UsernameNotFoundException("Users not found") }
         }
     }
-
+    @Bean
+    open fun restTemplate(): RestTemplate {
+        return RestTemplate()
+    }
     @Bean
     @Throws(Exception::class)
     open fun authenticationManager(config: AuthenticationConfiguration): AuthenticationManager {
