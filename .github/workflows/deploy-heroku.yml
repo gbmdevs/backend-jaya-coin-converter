@@ -68,16 +68,12 @@ jobs:
 
       - name: Deploy to Heroku
         env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-            HEROKU_APP_NAME: backend-jaya-coin-converter
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_DEBUG: 1
         run: |
-            echo "Logging in to Heroku..."
-            heroku auth:whoami || echo "${HEROKU_API_KEY}" | heroku login
-            echo "Deploying to Heroku app: ${HEROKU_APP_NAME}" 
-            git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git || git remote set-url heroku https://:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git
-            git config --global user.email "github-actions@users.noreply.github.com"
-            git config --global user.name "GitHub Actions"
-            git checkout main || git checkout -b main
-            git add . -f
-            git commit -m "Deploy built assets" || echo "No changes to commit"
-            git push heroku main --force
+          echo "Logging in to Heroku..."
+          export HEROKU_API_KEY="$HEROKU_API_KEY"
+          echo "HEROKU_API_KEY is set to: ${HEROKU_API_KEY:0:10}..."
+          heroku plugins:install java
+          echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
+          heroku deploy:jar build/libs/backend-jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
