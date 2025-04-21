@@ -3,7 +3,7 @@ name: CI/CD para o Back-end - Jaya Coin Converter
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   checkout:
@@ -36,6 +36,7 @@ jobs:
 
       - name: Compile and build
         run: ./gradlew build -x test
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
