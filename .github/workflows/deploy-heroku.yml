@@ -1,4 +1,4 @@
-name: CI/CD para o Back-end - Jaya Coin Converter
+name: CI/CD para o Back-end - Jaya Coin Converter 
 
 on:
   push:
