@@ -3,6 +3,11 @@ server:
   datasource:
     url: ${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
+  servlet:
+    context-path: /api
+  cors:
+    front-end:
+      url: ${FRONT_END_URL}
   jpa:
     hibernate:
       ddl-auto: none

@@ -1,3 +1,0 @@
-CREATE TABLE Usuario (
-    id VARCHAR(36) NOT NULL PRIMARY KEY
-)
