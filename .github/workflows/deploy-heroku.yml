@@ -73,8 +73,7 @@ jobs:
         run: |
           echo "Logging in to Heroku..."
           export HEROKU_API_KEY="$HEROKU_API_KEY"
-          echo "HEROKU_API_KEY is set to: ${HEROKU_API_KEY:0:10}..."
-          heroku buildpacks:set heroku/jvm
+          echo "HEROKU_API_KEY is set to: ${HEROKU_API_KEY:0:10}..." 
           heroku plugins:install java
           echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
           heroku deploy:jar build/libs/backend-jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
