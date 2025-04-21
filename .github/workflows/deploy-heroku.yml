@@ -1,4 +1,4 @@
-name: CI/CD para o Back-end - Jaya Coin Converter 
+name: Build and Deploy Spring Boot to Heroku
 
 on:
   push:
@@ -56,7 +56,7 @@ jobs:
     if: github.event_name == 'push' # Only deploy on push, not on pull requests
 
     steps:
-      # Step 1: Checkout the repository code (needed for Procfile or other config)
+      # Step 1: Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -67,7 +67,13 @@ jobs:
           name: spring-boot-jar
           path: build/libs
 
-      # Step 3: Deploy to Heroku
+      # Step 3: Configure Git (to prevent commit issues)
+      - name: Configure Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      # Step 4: Deploy to Heroku
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.13.15
         with:
@@ -76,3 +82,4 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           appdir: "build/libs" # Directory containing the JAR file
           procfile: "web: java -jar build/libs/*.jar" # Procfile content for Heroku
+          dontusegit: true # Prevent the action from committing the Procfile
