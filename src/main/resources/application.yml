@@ -15,6 +15,7 @@ server:
     properties:
       hibernate:
         default_schema: coinconverter
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 flyway:
   url: ${DATABASE_URL}
