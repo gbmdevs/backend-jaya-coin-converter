@@ -32,7 +32,7 @@ class AuthControllerTest {
     private var expiration: Long = 0
 
     @Test
-    fun `should authenticate user and return JWT token`() {
+    fun `should authenticate user and return JWT tokena`() {
         val loginDto = createLoginDto(email = "test@test.com.br", password = "teste")
         mockMvc.post("/auth/login") {
             contentType = MediaType.APPLICATION_JSON
