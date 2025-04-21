@@ -73,7 +73,7 @@ jobs:
       - name: Deploy to Heroku
         env:
            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-           HEROKU_APP_NAME: frontend-jaya-coin-converter
+           HEROKU_APP_NAME: backend-jaya-coin-converter
         run: |
               echo "Logging in to Heroku..."
               heroku auth:whoami || echo "${HEROKU_API_KEY}" | heroku login
