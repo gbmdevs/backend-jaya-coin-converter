@@ -71,9 +71,11 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_DEBUG: 1
         run: |
-            echo "Logging in to Heroku..."
-            echo "$HEROKU_API_KEY" | heroku auth:token
-            echo "Ensuring heroku/jvm buildpack is set..."
-            heroku buildpacks:add heroku/jvm -a backend-jaya-coin-converter
-            echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
-            heroku deploy:jar build/libs/backend-jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
+          echo "Logging in to Heroku..."
+          export HEROKU_API_KEY="$HEROKU_API_KEY"
+          echo "HEROKU_API_KEY is set to: ${HEROKU_API_KEY:0:10}..." 
+          echo "Ensuring heroku/jvm buildpack is set..."
+          heroku buildpacks:add heroku/jvm -a backend-jaya-coin-converter
+          heroku plugins:install java
+          echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
+          heroku deploy:jar build/libs/backend-jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
