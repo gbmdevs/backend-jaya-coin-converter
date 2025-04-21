@@ -32,10 +32,14 @@ spring:
         settings.web-allow-others: true
   jpa:
      show-sql: true
+     properties:
+       hibernate:
+         globally_quoted_identifiers_skip_column_definitions: false
+         globally_quoted_identifiers: false
      hibernate:
        naming:
          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-       ddl-auto: update
+       ddl-auto: validate
 flyway:
     url: jdbc:h2:mem:bancotest
     baseline-on-migrate: true

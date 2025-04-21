@@ -11,12 +11,12 @@ class UsersHistoricalCurrencyConvert(
 
     @Id
     @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     val id: UUID = UUID.randomUUID(),
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     var user: Users?,
 
     @Column(name="operation_date_time")
