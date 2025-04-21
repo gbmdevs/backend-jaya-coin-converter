@@ -19,6 +19,8 @@ server:
   cors:
     front-end:
       url: ${FRONT_END_URL}
+
+spring:
   jpa:
     hibernate:
       physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
