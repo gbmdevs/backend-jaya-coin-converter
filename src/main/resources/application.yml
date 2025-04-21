@@ -11,9 +11,6 @@ currency:
 
 server:
   port: ${PORT:8080}
-  datasource:
-    url: ${DATABASE_URL}
-    driver-class-name: org.postgresql.Driver
   servlet:
     context-path: /api
   cors:
@@ -21,6 +18,9 @@ server:
       url: ${FRONT_END_URL}
 
 spring:
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
