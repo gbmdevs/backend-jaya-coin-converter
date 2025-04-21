@@ -56,7 +56,7 @@ jobs:
 
   deploy:
     needs: build
-    if: needs.build.outputs.build-success == 'true'
+    environment: production 
     runs-on: ubuntu-latest
 
     steps:
