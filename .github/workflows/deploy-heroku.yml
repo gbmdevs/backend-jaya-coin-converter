@@ -40,7 +40,7 @@ jobs:
           echo "Found JAR file: ${JAR_FILE}"
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: spring-boot-app
           path: ${{ steps.jar-name.outputs.JAR_FILE }}
