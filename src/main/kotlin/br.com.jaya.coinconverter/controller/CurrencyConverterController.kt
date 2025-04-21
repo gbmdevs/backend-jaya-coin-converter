@@ -5,10 +5,7 @@ import br.com.jaya.coinconverter.model.CurrencySearchResponseDTO
 import br.com.jaya.coinconverter.repository.model.CurrencyType
 import br.com.jaya.coinconverter.services.CurrencyService
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("currency")
@@ -16,7 +13,7 @@ class CurrencyConverterController(
     private val currencyService: CurrencyService
 ) {
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     fun serachForCoin(@RequestBody search: CurrencySearchRequestDTO): ResponseEntity<CurrencySearchResponseDTO> {
        return ResponseEntity.ok(currencyService.getExchangeRates(search))
     }

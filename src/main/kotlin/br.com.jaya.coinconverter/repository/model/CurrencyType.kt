@@ -24,8 +24,10 @@ class CurrencyType(
     val currency: String,
 
     @Column(name="country")
-    val country: String
+    val country: String,
+    @Column(name="symbol")
+    val symbol: String
 
 ) {
-    constructor() : this(UUID.randomUUID(), "", "")
+    constructor() : this(UUID.randomUUID(), "", "","")
 }

@@ -2,6 +2,9 @@ server:
   servlet:
     context-path: /api
   port: 9439
+  cors:
+    front-end:
+      url: "http://localhost:5173/"
 
 security:
   jwt:
