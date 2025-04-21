@@ -48,26 +48,22 @@ jobs:
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       HEROKU_APP_NAME: backend-jaya-coin-converter
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+     - name: Checkout code
+       uses: actions/checkout@v4
 
-      - name: Download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: spring-boot-app
-          path: build/libs/
+     - name: Download artifact
+       uses: actions/download-artifact@v4
+       with:
+        name: spring-boot-app
+        path: build/libs/
 
-      - name: Install Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
+     - name: Install Heroku CLI
+       run: |
+         curl https://cli-assets.heroku.com/install.sh | sh
 
-      - name: Login to Heroku
-        run: |
-          echo "Logging in to Heroku..."
-          heroku login --api-key $HEROKU_API_KEY
-
-      - name: Deploy to Heroku
-        run: |
-          echo "Deploying to Heroku app: $HEROKU_APP_NAME"
-          heroku war:deploy build/libs/backend-jaya-coin-converter.jar --app $HEROKU_APP_NAME
+     - name: Deploy to Heroku
+       run: |
+         echo "Deploying to Heroku app: $HEROKU_APP_NAME"
+         heroku war:deploy build/libs/backend-jaya-coin-converter.jar --app $HEROKU_APP_NAME
