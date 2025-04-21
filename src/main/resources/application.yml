@@ -1,3 +1,14 @@
+security:
+  jwt:
+    secret-key: "3cfa76ef14937c1c0ea519f8fc057a80fcd04a7420f8e8bcd0a7567c272e007b"
+    expiration-time: 8000000
+
+currency:
+  server:
+    api:
+      url: "http://api.exchangeratesapi.io/v1/latest"
+      key: "67ce30f2153132bb71ccc5c6d89fe9aa"
+
 server:
   port: ${PORT:8080}
   datasource:
@@ -25,3 +36,4 @@ flyway:
   validate-on-migrate: true
   locations:
     - classpath:db/migration/common
+
