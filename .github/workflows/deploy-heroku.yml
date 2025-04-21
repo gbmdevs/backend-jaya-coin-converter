@@ -56,7 +56,7 @@ jobs:
       - name: Download JAR artifact
         uses: actions/download-artifact@v4
         with:
-          name: backend-jaya-coin-converter
+          name: backend-jaya-coin-converter-jar
           path: build/libs
 
       - name: Configure Git
