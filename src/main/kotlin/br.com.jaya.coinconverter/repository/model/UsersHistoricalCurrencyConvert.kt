@@ -6,7 +6,7 @@ import org.hibernate.type.SqlTypes
 import java.util.*
 
 @Entity
-@Table(name = "users_hist_currcy_convrt")
+@Table(name = "USERS_HIST_CURRCY_CONVRT")
 class UsersHistoricalCurrencyConvert(
 
     @Id
