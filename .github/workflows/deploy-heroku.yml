@@ -53,8 +53,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    if: github.event_name == 'push' # Only deploy on push, not on pull requests
-
     steps:
       # Step 1: Checkout the repository code
       - name: Checkout code
@@ -67,19 +65,23 @@ jobs:
           name: spring-boot-jar
           path: build/libs
 
-      # Step 3: Configure Git (to prevent commit issues)
-      - name: Configure Git
+      - name: Install Heroku CLI
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+             curl https://cli-assets.heroku.com/install.sh | sh
+             heroku --version
 
-      # Step 4: Deploy to Heroku
       - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.13.15
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          appdir: "build/libs" # Directory containing the JAR file
-          procfile: "web: java -jar build/libs/*.jar" # Procfile content for Heroku
-          dontusegit: true # Prevent the action from committing the Procfile
+        env:
+           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+           HEROKU_APP_NAME: frontend-jaya-coin-converter
+        run: |
+              echo "Logging in to Heroku..."
+              heroku auth:whoami || echo "${HEROKU_API_KEY}" | heroku login
+              echo "Deploying to Heroku app: ${HEROKU_APP_NAME}" 
+              git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git || git remote set-url heroku https://:${HEROKU_API_KEY}@git.heroku.com/${HEROKU_APP_NAME}.git
+              git config --global user.email "github-actions@users.noreply.github.com"
+              git config --global user.name "GitHub Actions"
+              git checkout main || git checkout -b main
+              git add dist -f
+              git commit -m "Deploy built assets" || echo "No changes to commit"
+              git push heroku main --force
