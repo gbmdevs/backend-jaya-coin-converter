@@ -21,6 +21,7 @@ server:
       url: ${FRONT_END_URL}
   jpa:
     hibernate:
+      physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
       ddl-auto: none
     show-sql: true
     properties:
