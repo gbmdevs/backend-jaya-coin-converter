@@ -53,5 +53,5 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: backend-jaya-coin-converter
-          run: |
+        run: |
             echo "Logging in to Heroku..."
