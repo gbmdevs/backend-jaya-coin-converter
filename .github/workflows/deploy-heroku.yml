@@ -14,10 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    outputs:
-      build-success: ${{ steps.set-output.outputs.build-success }}
-      artifact-name: ${{ steps.set-output.outputs.artifact-name }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
