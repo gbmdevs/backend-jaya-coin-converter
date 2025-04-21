@@ -50,20 +50,22 @@ jobs:
       HEROKU_APP_NAME: backend-jaya-coin-converter
 
     steps:
-     - name: Checkout code
-       uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for Git push
 
-     - name: Download artifact
-       uses: actions/download-artifact@v4
-       with:
-        name: spring-boot-app
-        path: build/libs/
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
 
-     - name: Install Heroku CLI
-       run: |
-         curl https://cli-assets.heroku.com/install.sh | sh
+      - name: Configure Git for Heroku
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          heroku git:remote -a $HEROKU_APP_NAME
 
-     - name: Deploy to Heroku
-       run: |
-         echo "Deploying to Heroku app: $HEROKU_APP_NAME"
-         heroku war:deploy build/libs/backend-jaya-coin-converter.jar --app $HEROKU_APP_NAME
+      - name: Deploy to Heroku
+        run: |
+          echo "Deploying to Heroku app: $HEROKU_APP_NAME"
+          git push heroku main --force
