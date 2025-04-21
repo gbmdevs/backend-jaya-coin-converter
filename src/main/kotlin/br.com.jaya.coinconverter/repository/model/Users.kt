@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 class Users(
     @JsonIgnore
     @Id
