@@ -46,7 +46,8 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build 
+    needs: build
+    if: github.event_name == 'push'
 
     steps:
       - name: Checkout code
@@ -67,6 +68,8 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          echo "${HEROKU_API_KEY}" | heroku login
+          echo "Logging in to Heroku..."
+          echo "$HEROKU_API_KEY" | heroku login --api-key
           heroku plugins:install java
-          heroku deploy:jar build/libs/jaya-coin-converter.jar --app backend-jaya-coin-converter --options "-Dserver.port=$PORT" --jdk 17
+          echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
+          heroku deploy:jar build/libs/jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
