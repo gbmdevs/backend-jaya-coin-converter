@@ -71,4 +71,4 @@ jobs:
           echo "Logging in to Heroku..."
           heroku plugins:install java
           echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
-          heroku deploy:jar build/libs/jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
+          heroku deploy:jar build/libs/backend-jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
