@@ -44,28 +44,26 @@ jobs:
           path: build/libs/*.jar
   deploy:
     runs-on: ubuntu-latest
-    needs: build
-    env:
-      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      HEROKU_APP_NAME: backend-jaya-coin-converter
+    needs: build 
 
     steps:
+      # Step 1: Checkout the repository code (needed for Procfile or other config)
       - name: Checkout code
         uses: actions/checkout@v4
+
+      # Step 2: Download the JAR artifact
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v4
         with:
-          fetch-depth: 0 # Required for Git push
+          name: spring-boot-jar
+          path: build/libs
 
-      - name: Install Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
-
-      - name: Configure Git for Heroku
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          heroku git:remote -a $HEROKU_APP_NAME
-
+      # Step 3: Deploy to Heroku
       - name: Deploy to Heroku
-        run: |
-          echo "Deploying to Heroku app: $HEROKU_APP_NAME"
-          git push heroku main --force
+        uses: akhileshns/heroku-deploy@v3.13.15
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          appdir: "build/libs" # Directory containing the JAR file
+          procfile: "web: java -jar build/libs/*.jar"
