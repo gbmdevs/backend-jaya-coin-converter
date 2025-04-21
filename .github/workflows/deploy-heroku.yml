@@ -69,7 +69,6 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           echo "Logging in to Heroku..."
-          echo "$HEROKU_API_KEY" | heroku login --api-key
           heroku plugins:install java
           echo "Deploying JAR to Heroku app: backend-jaya-coin-converter"
           heroku deploy:jar build/libs/jaya-coin-converter.jar --app backend-jaya-coin-converter --jdk 17
