@@ -18,7 +18,7 @@ interface UsersHistoricalCurrencyConvertRepository : CrudRepository<UsersHistori
                    "uhcc.currency_destiny_value, "+
                    "uhcc.tax_conversion, "+
                    "uhcc.operation_date_time "+
-            "FROM USERS_HIST_CURRCY_CONVRT uhcc\n" +
-            "inner join USERS u on u.id = uhcc.user_id", nativeQuery = true)
+            "FROM \"USERS_HIST_CURRCY_CONVRT\" uhcc\n" +
+            "inner join \"USERS\" u on u.id = uhcc.user_id", nativeQuery = true)
     fun findAllHistoricalConvert(): List<Map<String, Any>>
 }
