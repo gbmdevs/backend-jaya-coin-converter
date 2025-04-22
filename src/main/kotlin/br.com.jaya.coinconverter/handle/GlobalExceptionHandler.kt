@@ -1,5 +1,6 @@
 package br.com.jaya.coinconverter.handle
 
+import br.com.jaya.coinconverter.exception.BussinessException
 import br.com.jaya.coinconverter.exception.UserFoundedException
 import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.http.HttpStatus
@@ -31,12 +32,20 @@ class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserFoundedException::class)
-    fun businessException(ex: Exception): ResponseEntity<ErrorResponse>{
+    fun forbiddenException(ex: Exception): ResponseEntity<ErrorResponse>{
         val errorResponse = ErrorResponse (
             code    = 403,
             message =  "Forbidden process: ${ex.message}"
         )
         return ResponseEntity(errorResponse,HttpStatus.FORBIDDEN)
+    }
+    @ExceptionHandler(BussinessException::class)
+    fun businessException(ex: Exception): ResponseEntity<ErrorResponse>{
+        val errorResponse = ErrorResponse (
+            code    = 400,
+            message =  "Business Error: ${ex.message}"
+        )
+        return ResponseEntity(errorResponse,HttpStatus.BAD_REQUEST)
     }
 
 

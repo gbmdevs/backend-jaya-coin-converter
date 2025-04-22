@@ -1,5 +1,6 @@
 package br.com.jaya.coinconverter.services
 
+import br.com.jaya.coinconverter.exception.BussinessException
 import br.com.jaya.coinconverter.exception.UserFoundedException
 import br.com.jaya.coinconverter.model.LoginUserRequestDTO
 import br.com.jaya.coinconverter.model.SignUpRequestDTO
@@ -31,13 +32,17 @@ class AuthenticationService(
         return userRepository.save(user)
     }
     fun authenticate(login: LoginUserRequestDTO): UserDetails {
-        authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(
-                login.email, login.password
+        try {
+            authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                    login.email, login.password
+                )
             )
-        )
-        return userRepository.findByEmail(login.email)
-            .orElseThrow{ UsernameNotFoundException("Users not found") }
+            return userRepository.findByEmail(login.email)
+                .orElseThrow { UsernameNotFoundException("Users not found") }
+        }catch(ex: Exception){
+            throw BussinessException("Username or password incorrect.")
+        }
     }
 
     fun isAccountExist(username: String): Boolean{

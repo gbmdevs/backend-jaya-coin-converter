@@ -3,6 +3,7 @@ package br.com.jaya.coinconverter.repository.model
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
+import java.math.BigDecimal
 import java.util.*
 
 @Entity
@@ -19,9 +20,18 @@ class UsersHistoricalCurrencyConvert(
     @JdbcTypeCode(SqlTypes.VARCHAR)
     var user: Users?,
 
+    @Column(name="currency_origin")
+    var currencyOrigin: String,
+
+    @Column(name="currency_origin_value")
+    var currencyOriginValue: BigDecimal,
+
+    @Column(name="tax_conversion")
+    var taxCorvesion: BigDecimal,
+
     @Column(name="operation_date_time")
     var operationDateTime: Date
 
     ) {
-    constructor(): this(UUID.randomUUID(),null, Date())
+    constructor(): this(UUID.randomUUID(),null,"", BigDecimal.ZERO,BigDecimal.ZERO, Date())
 }

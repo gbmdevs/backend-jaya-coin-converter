@@ -18,6 +18,8 @@ server:
       url: ${FRONT_END_URL}
 
 spring:
+  jackson:
+    time-zone: America/Sao_Paulo
   datasource:
     url: ${DATABASE_URL}
     driver-class-name: org.postgresql.Driver
