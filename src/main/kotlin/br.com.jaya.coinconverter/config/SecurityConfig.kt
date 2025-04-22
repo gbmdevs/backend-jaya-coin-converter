@@ -24,6 +24,8 @@ open class SecurityConfig(private val jwtAuthenticationFilter: JwtAuthentication
             .authorizeHttpRequests()
             .requestMatchers(AntPathRequestMatcher("/auth/**")).permitAll()
             .requestMatchers(AntPathRequestMatcher("/h2-console/**")).permitAll()
+            .requestMatchers(AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+            .requestMatchers(AntPathRequestMatcher("/api-docs/**")).permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement()

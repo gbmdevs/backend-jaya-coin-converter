@@ -17,6 +17,14 @@ currency:
           url: "http://api.exchangeratesapi.io/v1/latest"
           key: "994bc40cb36842ec9aabc8bf574b5b1f"
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+  packages-to-scan: br.com.jaya.coinconverter.controller
+  show-actuator: false
+
 spring:
   jackson:
       time-zone: America/Sao_Paulo
