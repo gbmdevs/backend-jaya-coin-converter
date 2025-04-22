@@ -17,14 +17,13 @@ open class SwaggerConfig {
         return OpenAPI()
             .info(
                 Info()
-                    .title("Sample API")
-                    .description("API Documentation")
-                    .version("1.0")
+                    .title("Back-end Jaya Coin Converter")
+                    .description("Documentação do conversor de moedas")
+                    .version("1.0.0")
                     .contact(
                         Contact()
-                            .name("John Doe")
-                            .email("john@example.com")
-                            .url("https://example.com")
+                            .name("Guilherme Gois Braga")
+                            .email("guih.smi2@outlook.com")
                     )
                     .license(
                         License()
@@ -34,7 +33,7 @@ open class SwaggerConfig {
             )
             .addServersItem(
                 Server()
-                    .url("http://localhost:8080")
+                    .url("http://localhost:9439")
                     .description("Local server")
             )
     }
