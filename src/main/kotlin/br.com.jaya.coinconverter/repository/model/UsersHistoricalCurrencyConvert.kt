@@ -3,6 +3,7 @@ package br.com.jaya.coinconverter.repository.model
 import jakarta.persistence.*
 import org.hibernate.annotations.JdbcTypeCode
 import org.hibernate.type.SqlTypes
+import java.math.BigDecimal
 import java.util.*
 
 @Entity
@@ -11,17 +12,32 @@ class UsersHistoricalCurrencyConvert(
 
     @Id
     @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     val id: UUID = UUID.randomUUID(),
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     var user: Users?,
 
-    @Column(name="operation_date_time")
+    @Column(name = "currency_origin")
+    var currencyOrigin: String,
+
+    @Column(name = "currency_origin_value")
+    var currencyOriginValue: BigDecimal,
+
+    @Column(name = "currency_destiny")
+    var currencyDestiny: String,
+
+    @Column(name = "currency_destiny_value")
+    var currencyDestinyValue: BigDecimal,
+
+    @Column(name = "tax_conversion")
+    var taxCorvesion: BigDecimal,
+
+    @Column(name = "operation_date_time")
     var operationDateTime: Date
 
-    ) {
-    constructor(): this(UUID.randomUUID(),null, Date())
+) {
+    constructor() : this(UUID.randomUUID(), null, "", BigDecimal.ZERO, "", BigDecimal.ZERO, BigDecimal.ZERO, Date())
 }

@@ -1,8 +1,10 @@
 package br.com.jaya.coinconverter.services
 
+import br.com.jaya.coinconverter.exception.BussinessException
 import br.com.jaya.coinconverter.exception.UserFoundedException
 import br.com.jaya.coinconverter.model.LoginUserRequestDTO
 import br.com.jaya.coinconverter.model.SignUpRequestDTO
+import br.com.jaya.coinconverter.model.SignUpResponseDTO
 import br.com.jaya.coinconverter.repository.UserRepository
 import br.com.jaya.coinconverter.repository.model.Users
 import org.springframework.security.authentication.AuthenticationManager
@@ -16,10 +18,11 @@ import org.springframework.stereotype.Service
 class AuthenticationService(
     private val userRepository: UserRepository,
     private val authenticationManager: AuthenticationManager,
-    private val passwordEncoder: PasswordEncoder
+    private val passwordEncoder: PasswordEncoder,
+    private val jwtService: JwtService
 ) {
 
-    fun signup(input: SignUpRequestDTO): Users {
+    fun signup(input: SignUpRequestDTO): SignUpResponseDTO {
         if(!isAccountExist(input.email)){
             throw UserFoundedException("User with email on request founded.")
         }
@@ -28,16 +31,25 @@ class AuthenticationService(
             hashedPassword = passwordEncoder.encode(input.password),
             name = input.name
         )
-        return userRepository.save(user)
+        val usersign = userRepository.save(user)
+        val signUpReturn = SignUpResponseDTO(
+            user = usersign,
+            token = jwtService.generateToken(usersign)
+        )
+        return signUpReturn
     }
     fun authenticate(login: LoginUserRequestDTO): UserDetails {
-        authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(
-                login.email, login.password
+        try {
+            authenticationManager.authenticate(
+                UsernamePasswordAuthenticationToken(
+                    login.email, login.password
+                )
             )
-        )
-        return userRepository.findByEmail(login.email)
-            .orElseThrow{ UsernameNotFoundException("Users not found") }
+            return userRepository.findByEmail(login.email)
+                .orElseThrow { UsernameNotFoundException("Users not found") }
+        }catch(ex: Exception){
+            throw BussinessException("Username or password incorrect.")
+        }
     }
 
     fun isAccountExist(username: String): Boolean{

@@ -4,6 +4,7 @@ import br.com.jaya.coinconverter.exception.BussinessException
 import br.com.jaya.coinconverter.model.CurrencySearchRequestDTO
 import br.com.jaya.coinconverter.model.CurrencySearchResponseDTO
 import br.com.jaya.coinconverter.model.ExchangeRateResponse
+import br.com.jaya.coinconverter.model.HistoricTransactionResponseDTO
 import br.com.jaya.coinconverter.repository.CurrencyTypeRepository
 import br.com.jaya.coinconverter.repository.UsersHistoricalCurrencyConvertRepository
 import br.com.jaya.coinconverter.repository.model.CurrencyType
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder;
+import java.math.BigDecimal
 import java.util.*
 
 @Service
@@ -47,34 +49,58 @@ class CurrencyService(
       return currencyTypeRepository.findAll().toList()
     }
 
+    fun findAllHistoricTransactions(): List<HistoricTransactionResponseDTO>{
+      return usersHistoricalCurrencyConvertRepository.findAllHistoricalConvert().map { map ->
+          HistoricTransactionResponseDTO(
+              id = map["id"].toString(),
+              userId = map["user_id"].toString(),
+              currencyOrigin = map["currency_origin"].toString(),
+              valueOrigin = BigDecimal(map["currency_origin_value"].toString()),
+              currencyDestiny = map["currency_destiny"].toString(),
+              valueDestiny = BigDecimal(map["currency_destiny_value"].toString()),
+              taxConversion =   BigDecimal(map["tax_conversion"].toString()),
+              dateOperation = map["operation_date_time"].toString()
+          )
+      }
+    }
+
     fun buildResponseExchangeRate(responseBody: String, search: CurrencySearchRequestDTO): CurrencySearchResponseDTO{
         val mapper = jacksonObjectMapper()
         val exchangeRateResponse = mapper.readValue(responseBody, ExchangeRateResponse::class.java)
 
         val fromRate = exchangeRateResponse.rates[search.currencyOrigin]
             ?: throw RuntimeException("Currency $search.currencyOrigin not found")
+        val fromRateDB = currencyTypeRepository.findByCurrency(search.currencyOrigin)
         val toRate = exchangeRateResponse.rates[search.currencyDestiny]
             ?: throw RuntimeException("Currency $search.currencyDestiny not found")
+        val toRateDB = currencyTypeRepository.findByCurrency(search.currencyDestiny)
         val conversionRate = toRate / fromRate
-        val valueDestiny = (search.amount * conversionRate)
+        val valueDestiny = (search.amount * BigDecimal(conversionRate))
+        val user = userService.findUserByEmailAuth()
 
         val historical = usersHistoricalCurrencyConvertRepository.save(
             UsersHistoricalCurrencyConvert(
                 UUID.randomUUID(),
-                userService.findUserByEmailAuth(),
+                user,
+                fromRateDB.currency,
+                search.amount,
+                toRateDB.currency,
+                valueDestiny,
+                BigDecimal(conversionRate),
                 Date()
             )
         )
-        return CurrencySearchResponseDTO(
-            historical.id.toString(),
-            "a",
-            search.currencyOrigin,
-            search.amount,
-            search.currencyDestiny,
-            valueDestiny,
-            conversionRate,
-            historical.operationDateTime
-        )
+            return CurrencySearchResponseDTO(
+                historical.id.toString(),
+                user?.id.toString(),
+                search.currencyOrigin,
+                search.amount,
+                search.currencyDestiny,
+                valueDestiny,
+                BigDecimal(conversionRate),
+                historical.operationDateTime
+            )
+
     }
 
 

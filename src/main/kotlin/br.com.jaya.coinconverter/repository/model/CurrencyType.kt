@@ -17,7 +17,7 @@ class CurrencyType(
 
     @Id
     @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.CHAR)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     val id: UUID = UUID.randomUUID(),
 
     @Column(name="currency")

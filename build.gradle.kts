@@ -24,6 +24,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.20")
     implementation("org.flywaydb:flyway-core:9.22.0")
     implementation("com.h2database:h2")
+    implementation("org.hibernate.orm:hibernate-core:6.6.13.Final")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")

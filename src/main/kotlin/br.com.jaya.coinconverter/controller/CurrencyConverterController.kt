@@ -2,6 +2,7 @@ package br.com.jaya.coinconverter.controller
 
 import br.com.jaya.coinconverter.model.CurrencySearchRequestDTO
 import br.com.jaya.coinconverter.model.CurrencySearchResponseDTO
+import br.com.jaya.coinconverter.model.HistoricTransactionResponseDTO
 import br.com.jaya.coinconverter.repository.model.CurrencyType
 import br.com.jaya.coinconverter.services.CurrencyService
 import org.springframework.http.ResponseEntity
@@ -22,5 +23,11 @@ class CurrencyConverterController(
     fun getAllCurrencyTypes(): List<CurrencyType>{
         return currencyService.findAllCurrencyType()
     }
+
+    @GetMapping("/historic")
+    fun gettAllHistoricTransactionsConvert(): List<HistoricTransactionResponseDTO>{
+        return currencyService.findAllHistoricTransactions();
+    }
+
 
 }

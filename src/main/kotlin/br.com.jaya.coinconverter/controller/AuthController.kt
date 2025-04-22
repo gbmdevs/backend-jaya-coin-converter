@@ -3,6 +3,7 @@ package br.com.jaya.coinconverter.controller
 import br.com.jaya.coinconverter.model.LoginUserRequestDTO
 import br.com.jaya.coinconverter.model.LoginUserResponseDTO
 import br.com.jaya.coinconverter.model.SignUpRequestDTO
+import br.com.jaya.coinconverter.model.SignUpResponseDTO
 import br.com.jaya.coinconverter.repository.model.Users
 import br.com.jaya.coinconverter.services.AuthenticationService
 import br.com.jaya.coinconverter.services.JwtService
@@ -20,7 +21,7 @@ class AuthController(
 ) {
 
     @PostMapping("/signup")
-    fun signUpUser(@RequestBody signup: SignUpRequestDTO): ResponseEntity<Users>{
+    fun signUpUser(@RequestBody signup: SignUpRequestDTO): ResponseEntity<SignUpResponseDTO>{
         return ResponseEntity.ok(authenticationService.signup(signup))
     }
 

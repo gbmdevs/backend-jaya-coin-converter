@@ -15,7 +15,7 @@ currency:
    server:
        api:
           url: "http://api.exchangeratesapi.io/v1/latest"
-          key: "67ce30f2153132bb71ccc5c6d89fe9aa"
+          key: "994bc40cb36842ec9aabc8bf574b5b1f"
 
 spring:
   jackson:
@@ -31,7 +31,15 @@ spring:
         enabled: true
         settings.web-allow-others: true
   jpa:
-     hibernate.ddl-auto: update
+     show-sql: true
+     properties:
+       hibernate:
+         globally_quoted_identifiers_skip_column_definitions: false
+         globally_quoted_identifiers: false
+     hibernate:
+       naming:
+         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+       ddl-auto: validate
 flyway:
     url: jdbc:h2:mem:bancotest
     baseline-on-migrate: true
