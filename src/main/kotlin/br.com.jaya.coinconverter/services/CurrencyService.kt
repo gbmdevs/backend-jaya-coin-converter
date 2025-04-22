@@ -50,7 +50,18 @@ class CurrencyService(
     }
 
     fun findAllHistoricTransactions(): List<HistoricTransactionResponseDTO>{
-      return usersHistoricalCurrencyConvertRepository.findAllHistoricalConvert()
+      return usersHistoricalCurrencyConvertRepository.findAllHistoricalConvert().map { map ->
+          HistoricTransactionResponseDTO(
+              id = map["id"].toString(),
+              userId = map["user_id"].toString(),
+              currencyOrigin = map["currency_origin"].toString(),
+              valueOrigin = BigDecimal(map["currency_origin_value"].toString()),
+              currencyDestiny = map["currency_destiny"].toString(),
+              valueDestiny = BigDecimal(map["currency_destiny_value"].toString()),
+              taxConversion =   BigDecimal(map["tax_conversion"].toString()),
+              dateOperation = map["operation_date_time"].toString()
+          )
+      }
     }
 
     fun buildResponseExchangeRate(responseBody: String, search: CurrencySearchRequestDTO): CurrencySearchResponseDTO{
@@ -62,6 +73,7 @@ class CurrencyService(
         val fromRateDB = currencyTypeRepository.findByCurrency(search.currencyOrigin)
         val toRate = exchangeRateResponse.rates[search.currencyDestiny]
             ?: throw RuntimeException("Currency $search.currencyDestiny not found")
+        val toRateDB = currencyTypeRepository.findByCurrency(search.currencyDestiny)
         val conversionRate = toRate / fromRate
         val valueDestiny = (search.amount * BigDecimal(conversionRate))
         val user = userService.findUserByEmailAuth()
@@ -72,6 +84,8 @@ class CurrencyService(
                 user,
                 fromRateDB.currency,
                 search.amount,
+                toRateDB.currency,
+                valueDestiny,
                 BigDecimal(conversionRate),
                 Date()
             )

@@ -10,6 +10,15 @@ import java.util.*
 @Repository
 interface UsersHistoricalCurrencyConvertRepository : CrudRepository<UsersHistoricalCurrencyConvert, UUID> {
 
-    @Query("SELECT CAST(id AS TEXT) AS transactionId FROM \"USERS_HIST_CURRCY_CONVRT\"", nativeQuery = true)
-    fun findAllHistoricalConvert(): List<HistoricTransactionResponseDTO>
+    @Query("SELECT  uhcc.id," +
+                   "uhcc.user_id, " +
+                   "uhcc.currency_origin, " +
+                   "uhcc.currency_origin_value, "+
+                   "uhcc.currency_destiny, "+
+                   "uhcc.currency_destiny_value, "+
+                   "uhcc.tax_conversion, "+
+                   "uhcc.operation_date_time "+
+            "FROM USERS_HIST_CURRCY_CONVRT uhcc\n" +
+            "inner join USERS u on u.id = uhcc.user_id", nativeQuery = true)
+    fun findAllHistoricalConvert(): List<Map<String, Any>>
 }
