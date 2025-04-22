@@ -13,7 +13,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    //implementation("org.springframework.boot:spring-boot-starter-amqp")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     implementation("org.postgresql:postgresql:42.7.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.20")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.20")

@@ -4,9 +4,9 @@ import br.com.jaya.coinconverter.model.LoginUserRequestDTO
 import br.com.jaya.coinconverter.model.LoginUserResponseDTO
 import br.com.jaya.coinconverter.model.SignUpRequestDTO
 import br.com.jaya.coinconverter.model.SignUpResponseDTO
-import br.com.jaya.coinconverter.repository.model.Users
 import br.com.jaya.coinconverter.services.AuthenticationService
 import br.com.jaya.coinconverter.services.JwtService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

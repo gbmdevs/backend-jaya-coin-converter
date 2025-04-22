@@ -7,7 +7,7 @@ currency:
   server:
     api:
       url: "http://api.exchangeratesapi.io/v1/latest"
-      key: "994bc40cb36842ec9aabc8bf574b5b1f"
+      key:  ${API_EXCHANGE_KEY}
 
 server:
   port: ${PORT:8080}
