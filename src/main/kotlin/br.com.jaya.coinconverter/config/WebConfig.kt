@@ -11,7 +11,7 @@ open class WebConfig: WebMvcConfigurer {
     private lateinit var frontendUrl: String
     override fun addCorsMappings(registry: CorsRegistry){
         registry.addMapping("/**")
-            //.allowedOrigins(frontendUrl)
+            .allowedOrigins(frontendUrl)
             .allowedOriginPatterns("http://localhost:[*]")
             .allowedMethods("GET", "POST", "PUT", "DELETE")
             .allowCredentials(true)
